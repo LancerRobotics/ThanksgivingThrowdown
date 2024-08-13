@@ -21,10 +21,15 @@ public class LancersTeleOp extends LinearOpMode {
             final DcMotor rightFront = hardwareMap.dcMotor.get(LancersBotConfig.FRONT_RIGHT_MOTOR);
             final DcMotor rightRear = hardwareMap.dcMotor.get(LancersBotConfig.BOTTOM_RIGHT_MOTOR);
 
+            final DcMotor clawMotor = hardwareMap.dcMotor.get(LancersBotConfig.CLAW_MOTOR);
+            final DcMotor clawServo = hardwareMap.dcMotor.get(LancersBotConfig.CLAW_SERVO);
+
             // Gamepad positions; Motors are swapped
-            final double rx = gamepad1.left_stick_y * speedMultiplier; // Remember, Y stick value is reversed
-            final double lx = -gamepad1.left_stick_x * speedMultiplier; // Counteract imperfect strafing
-            final double ly = -gamepad1.right_stick_x * speedMultiplier;
+            final double ly = -gamepad1.left_stick_y * speedMultiplier; // Remember, Y stick value is reversed
+            final double lx = gamepad1.left_stick_x * speedMultiplier; // Counteract imperfect strafing
+            final double rx = gamepad1.right_stick_x * speedMultiplier;
+
+            final double sy = gamepad2. * speedMultiplier;
 
             // Denominator is the largest motor power (absolute value) or 1
             // This ensures all the powers maintain the same ratio,
@@ -36,8 +41,8 @@ public class LancersTeleOp extends LinearOpMode {
             final double frontRightPower = (ly - lx - rx) / denominator;
             final double backRightPower = (ly + lx - rx) / denominator;
 
-            leftFront.setPower(frontLeftPower);
-            leftRear.setPower(backLeftPower);
+            leftFront.setPower(-frontLeftPower);
+            leftRear.setPower(-backLeftPower);
             rightFront.setPower(frontRightPower);
             rightRear.setPower(backRightPower);
         }
