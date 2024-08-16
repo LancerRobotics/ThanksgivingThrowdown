@@ -15,7 +15,7 @@ public class LancersTeleOp extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-            final double speedMultiplier = gamepad1.a ? 1.0d : 0.8d;
+            final double speedMultiplier = (gamepad1.a ? 1.0d : 0.8d)/1.5;
 
             final DcMotor leftFront = hardwareMap.dcMotor.get(LancersBotConfig.FRONT_LEFT_MOTOR);
             final DcMotor leftRear = hardwareMap.dcMotor.get(LancersBotConfig.BOTTOM_LEFT_MOTOR);
@@ -47,18 +47,15 @@ public class LancersTeleOp extends LinearOpMode {
             final float TRIGGER_THRESHOLD = 0.15f;
 
             if (spy > TRIGGER_THRESHOLD){
-                //telemetry.addData("SPY USED!!!", spy);
-                slidesPower = spy;
                 slidesPower = (spy - TRIGGER_THRESHOLD) * (1f / (1f - TRIGGER_THRESHOLD));
             }
             if (sny > TRIGGER_THRESHOLD){
-                //telemetry.addData("SNY USED!!!", sny);
                 slidesPower =  -(sny - TRIGGER_THRESHOLD) * (1f / (1f - TRIGGER_THRESHOLD));
             }
 
             double currentServoPosition = clawServo.getPosition();
-            final double openServoPosition = 0;
-            final double closeServoPosition = 0.5;
+            double openServoPosition = 0.35;
+            double closeServoPosition = 0.5;
             final double servoSpeed = 0.01;
 
             if ((gamepad2.a) && currentServoPosition < closeServoPosition){
